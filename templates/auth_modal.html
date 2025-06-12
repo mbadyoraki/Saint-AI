@@ -1,0 +1,39 @@
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2 id="auth-type-select">Login</h2> <div id="auth-step-1" class="auth-step">
+            <form id="authFormStep1">
+                <label for="auth-username">Username:</label>
+                <input type="text" id="auth-username" required>
+
+                <label for="auth-email" id="email-label" style="display: none;">Email:</label>
+                <input type="email" id="auth-email" style="display: none;">
+
+                <label for="auth-password">Password:</label>
+                <input type="password" id="auth-password" required>
+
+                <label for="auth-confirm-password" id="confirm-password-label" style="display: none;">Confirm Password:</label>
+                <input type="password" id="auth-confirm-password" style="display: none;">
+            </form>
+            <div class="auth-error" id="auth-error"></div>
+            <div class="auth-options">
+                <button id="goto-login" style="display: none;">Already have an account? Login</button>
+                <button id="goto-register">Don't have an account? Register</button>
+            </div>
+        </div>
+
+        <div id="auth-step-2" class="auth-step" style="display: none;">
+            <h2>Choose Your Avatar</h2>
+            <p>Select a fun avatar for your profile!</p>
+            <div class="avatar-selection" id="avatar-options">
+                <img src="/static/avatars/default.png" alt="Default Avatar" class="avatar-option selected" data-url="/static/avatars/default.png">
+                </div>
+        </div>
+
+        <div class="modal-footer-buttons">
+            <button class="back-button" id="back-button" style="display: none;">Back</button>
+            <button class="next-button" id="next-button" style="display: none;">Next</button>
+            <button class="submit-button" id="submit-button">Submit</button>
+        </div>
+    </div>
+</div>

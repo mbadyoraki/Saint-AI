@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reusing and adapting styles from index.html for consistency */
+        :root {
+            /* Light Theme Variables */
+            --color-bg-primary: #F8F8F8;
+            --color-bg-secondary: #FFFFFF;
+            --color-text-primary: #333333;
+            --color-text-secondary: #666666;
+            --color-border-light: #E0E0E0;
+            --color-shadow: rgba(0, 0, 0, 0.06);
+            
+            --color-palette-purple: #cdb4db;
+            --color-palette-pink: #ffc8dd;
+            --color-palette-blue-light: #a2d2ff;
+            --color-palette-blue-lighter: #bde0fe;
+            
+            --color-accent-primary: var(--color-palette-blue-light);
+            --color-accent-secondary: var(--color-palette-pink);
+            --color-accent-hover: #81b1ed;
+        }
+
+        /* Dark Theme Variables */
+        body.dark-theme {
+            --color-bg-primary: #282c34; /* Darker background */
+            --color-bg-secondary: #3b404a; /* Darker card background */
+            --color-text-primary: #e0e0e0; /* Light text */
+            --color-text-secondary: #cccccc; /* Lighter secondary text */
+            --color-border-light: #4a505b; /* Darker border */
+            --color-shadow: rgba(0, 0, 0, 0.3); /* More prominent shadow for dark mode */
+            
+            --color-palette-purple: #7b4a8e; /* Darker purple */
+            --color-palette-pink: #cc748e; /* Darker pink */
+            --color-palette-blue-light: #6e8eaf; /* Darker blue */
+            --color-palette-blue-lighter: #8fa0be; /* Darker lighter blue */
+            
+            --color-accent-primary: var(--color-palette-blue-light);
+            --color-accent-secondary: var(--color-palette-pink);
+            --color-accent-hover: #5d7c9c; /* Darker hover */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box; 
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for theme change */
+        }
+
+        .settings-container {
+            background-color: var(--color-bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--color-shadow);
+            width: 90%;
+            max-width: 650px; /* Slightly wider for forms */
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+
+        .settings-header {
+            background-color: var(--color-palette-purple); /* Purple header */
+            color: #FFFFFF; /* White text for header */
+            padding: 18px 25px;
+            margin: -30px -30px 30px -30px; /* Adjust to sit at top of container */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        .settings-header .back-button {
+            background: none;
+            border: none;
+            color: #FFFFFF; /* White text for button */
+            font-size: 1em;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .settings-header .back-button:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .settings-header .back-button i {
+            font-size: 1.2em;
+        }
+
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--color-border-light);
+            text-align: left;
+            transition: border-color 0.3s ease; /* Smooth transition */
+        }
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .form-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            color: var(--color-accent-primary);
+            margin-bottom: 25px;
+            text-align: center;
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: calc(100% - 24px); /* Account for padding and border */
+            padding: 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: var(--color-accent-primary);
+            box-shadow: 0 0 0 3px var(--color-accent-primary-transparent); /* Use a transparent version of accent for shadow */
+            outline: none;
+        }
+        /* Define transparent accent color for focus shadow */
+        body:not(.dark-theme) .form-group input:focus {
+            --color-accent-primary-transparent: rgba(162, 210, 255, 0.25);
+        }
+        body.dark-theme .form-group input:focus {
+            --color-accent-primary-transparent: rgba(110, 142, 175, 0.25);
+        }
+
+        .avatar-selection {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .avatar-selection img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid transparent;
+            transition: border-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .avatar-selection img.selected {
+            border-color: var(--color-palette-purple); /* Active avatar border */
+            transform: scale(1.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-buttons button {
+            background-color: var(--color-accent-primary); /* Blue button */
+            color: #FFFFFF; /* White text */
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 2px 8px var(--color-shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .action-buttons button i {
+            font-size: 1.1em;
+        }
+
+        .action-buttons button:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+        }
+        .action-buttons button:active {
+            transform: translateY(0);
+        }
+
+        #response-message {
+            margin-top: 25px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            display: none; /* Hidden by default, shown by JS */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .message-success {
+            background-color: #D4EDDA; /* Light green */
+            color: #155724; /* Dark green text */
+            border: 1px solid #C3E6CB;
+        }
+        .message-error {
+            background-color: #F8D7DA; /* Light red */
+            color: #721C24; /* Dark red text */
+            border: 1px solid #F5C6CB;
+        }
+
+        /* Theme selection specific styles */
+        .theme-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 400;
+            color: var(--color-text-secondary);
+        }
+        .theme-option input[type="radio"] {
+            /* Hide default radio button */
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .theme-option .radio-custom {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border-light);
+            display: inline-block;
+            position: relative;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        .theme-option input[type="radio"]:checked + .radio-custom {
+            border-color: var(--color-accent-primary);
+            background-color: var(--color-accent-primary);
+        }
+        .theme-option input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .theme-option:hover .radio-custom {
+            border-color: var(--color-accent-hover);
+        }
+
+
+        @media (max-width: 480px) {
+            .settings-container {
+                padding: 20px;
+            }
+            .settings-header {
+                padding: 15px 20px;
+                font-size: 1.5em;
+            }
+            .form-section {
+                padding-bottom: 15px;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .action-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <button class="back-button" onclick="window.location.href='/'"><i class="fas fa-arrow-left"></i> Back to Chat</button>
+            <h2>User Settings</h2>
+            <div></div> </div>
+
+        <div class="form-section">
+            <h3>Profile Information</h3>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="JohnDoe"> </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="john.doe@example.com"> </div>
+
+            <div class="form-group">
+                <label>Choose Avatar:</label>
+                <div class="avatar-selection" id="avatar-selection">
+                    </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="update-profile-button"><i class="fas fa-save"></i> Update Profile</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Change Password</h3>
+            <div class="form-group">
+                <label for="current-password">Current Password:</label>
+                <input type="password" id="current-password">
+            </div>
+            <div class="form-group">
+                <label for="new-password">New Password:</label>
+                <input type="password" id="new-password">
+            </div>
+
+            <div class="action-buttons">
+                <button id="change-password-button"><i class="fas fa-key"></i> Change Password</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Theme Settings</h3>
+            <div class="theme-options">
+                <label class="theme-option">
+                    <input type="radio" name="theme" value="light" id="theme-light">
+                    <span class="radio-custom"></span>
+                    Light Theme
+                </label>
+                <label class="theme-option">
+                    <input type="radio" name="theme" value="dark" id="theme-dark">
+                    <span class="radio-custom"></span>
+                    Dark Theme
+                </label>
+            </div>
+        </div>
+
+        <div id="response-message"></div>
+
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const avatarSelectionDiv = document.getElementById('avatar-selection');
+        const updateProfileButton = document.getElementById('update-profile-button');
+        const currentPasswordInput = document.getElementById('current-password');
+        const newPasswordInput = document.getElementById('new-password');
+        const changePasswordButton = document.getElementById('change-password-button');
+        const responseMessageDiv = document.getElementById('response-message');
+
+        // Placeholder for Flask context values
+        let selectedAvatarUrl = "https://via.placeholder.com/60/cdb4db/FFFFFF?text=A1"; // Default avatar
+        const avatarOptions = [
+            "https://via.placeholder.com/60/cdb4db/FFFFFF?text=A1",
+            "https://via.placeholder.com/60/ffc8dd/FFFFFF?text=A2",
+            "https://via.placeholder.com/60/a2d2ff/FFFFFF?text=A3",
+            "https://via.placeholder.com/60/bde0fe/FFFFFF?text=A4",
+            "https://via.placeholder.com/60/8b8c8d/FFFFFF?text=A5" // Example more neutral avatar
+        ];
+
+        // Theme elements
+        const themeLightRadio = document.getElementById('theme-light');
+        const themeDarkRadio = document.getElementById('theme-dark');
+
+        // Function to display messages
+        function displayMessage(message, type) {
+            responseMessageDiv.textContent = message;
+            responseMessageDiv.className = ''; // Clear previous classes
+            responseMessageDiv.classList.add(type === 'success' ? 'message-success' : 'message-error');
+            responseMessageDiv.style.display = 'block';
+            responseMessageDiv.style.opacity = 1;
+            setTimeout(() => {
+                responseMessageDiv.style.opacity = 0;
+                setTimeout(() => {
+                    responseMessageDiv.style.display = 'none';
+                    responseMessageDiv.textContent = '';
+                }, 300); // Allow fade out before clearing
+            }, 5000); // Message disappears after 5 seconds
+        }
+
+        // Populate avatar options and select current one
+        function populateAvatarOptions() {
+            avatarSelectionDiv.innerHTML = '';
+            avatarOptions.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = "Avatar";
+                img.classList.add('avatar-option');
+                if (url === selectedAvatarUrl) {
+                    img.classList.add('selected');
+                }
+                img.onclick = () => {
+                    document.querySelectorAll('.avatar-option').forEach(i => i.classList.remove('selected'));
+                    img.classList.add('selected');
+                    selectedAvatarUrl = url;
+                };
+                avatarSelectionDiv.appendChild(img);
+            });
+        }
+
+        // Function to apply theme
+        function applyTheme(themeName) {
+            const body = document.body;
+            if (themeName === 'dark') {
+                body.classList.add('dark-theme');
+                themeDarkRadio.checked = true;
+            } else {
+                body.classList.remove('dark-theme');
+                themeLightRadio.checked = true;
+            }
+            localStorage.setItem('nexusai_theme', themeName); // Save theme preference
+        }
+
+        // Update profile handler (mocked for standalone HTML)
+        updateProfileButton.addEventListener('click', async () => {
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+
+            if (!username || !email || !selectedAvatarUrl) {
+                displayMessage("All fields are required for profile update.", "error");
+                return;
+            }
+
+            // Simulate API call
+            displayMessage("Profile updated successfully! (Mock)", "success");
+            // In a real application, you would make a fetch request here:
+            /*
+            try {
+                const response = await fetch('/update_user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, avatar_url: selectedAvatarUrl })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    displayMessage(data.message, "success");
+                } else {
+                    displayMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                displayMessage("An error occurred while updating your profile.", "error");
+            }
+            */
+        });
+
+        // Change password handler (mocked for standalone HTML)
+        changePasswordButton.addEventListener('click', async () => {
+            const currentPassword = currentPasswordInput.value.trim();
+            const newPassword = newPasswordInput.value.trim();
+
+            if (!currentPassword || !newPassword) {
+                displayMessage("Both current and new passwords are required.", "error");
+                return;
+            }
+            if (newPassword.length < 6) {
+                displayMessage("New password must be at least 6 characters long.", "error");
+                return;
+            }
+
+            // Simulate API call
+            if (currentPassword === "password123" && newPassword !== "password123") { // Simple mock validation
+                 displayMessage("Password changed successfully! (Mock)", "success");
+                 currentPasswordInput.value = ''; // Clear fields on success
+                 newPasswordInput.value = '';
+            } else {
+                 displayMessage("Invalid current password or new password is same as current. (Mock)", "error");
+            }
+            /*
+            try {
+                const response = await fetch('/change_password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    displayMessage(data.message, "success");
+                    currentPasswordInput.value = '';
+                    newPasswordInput.value = '';
+                } else {
+                    displayMessage(data.message, "error");
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                displayMessage("An error occurred while changing your password.", "error");
+            }
+            */
+        });
+
+        // Theme selection event listeners
+        themeLightRadio.addEventListener('change', () => applyTheme('light'));
+        themeDarkRadio.addEventListener('change', () => applyTheme('dark'));
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateAvatarOptions();
+            // Load saved theme preference
+            const savedTheme = localStorage.getItem('nexusai_theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else {
+                applyTheme('light'); // Default theme
+            }
+        });
+
+    </script>
+</body>
+</html>
