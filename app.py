@@ -1,6 +1,8 @@
 # app.py - NexusAI: News Analyst & Fact-Checker Backend (Using Google Gemini Flash or Open-Source LLM)
 # This monolithic file combines all discussed features for demonstration.
 # In a real-world scenario, this would be broken down into multiple modules (blueprints, services, models).
+import eventlet
+eventlet.monkey_patch()
 
 import os
 import re
